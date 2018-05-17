@@ -20,7 +20,7 @@ public class WebViewController  extends  WebBaseController{
         }
         uri = uri.replaceAll("/{1,}","/");
         if (uri.equals("/")){
-            uri = "/index";
+            uri = "/index.jsp";
         }
         return uri;
     }
