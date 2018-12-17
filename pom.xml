@@ -26,7 +26,7 @@
   <name>chanxi</name>
   <groupId>com</groupId>
   <artifactId>chanxi</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
 
   <profiles>
     <profile>
@@ -50,66 +50,8 @@
       </properties>
     </profile>
 
-    <profile>
-      <id>devtest</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <resources>
-          <resource>
-            <directory>src/main/resources/env/devtest</directory>
-            <includes>
-              <include>**/*.*</include>
-            </includes>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-      </build>
-      <properties>
-        <package.environment>devtest</package.environment>
-      </properties>
-    </profile>
-    <profile>
-      <id>vps</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <resources>
-          <resource>
-            <directory>src/main/resources/env/vps</directory>
-            <includes>
-              <include>**/*.*</include>
-            </includes>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-      </build>
-      <properties>
-        <package.environment>vps</package.environment>
-      </properties>
-    </profile>
-    <profile>
-      <id>test</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <resources>
-          <resource>
-            <directory>src/main/resources/env/test</directory>
-            <includes>
-              <include>**/*.*</include>
-            </includes>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-      </build>
-      <properties>
-        <package.environment>test</package.environment>
-      </properties>
-    </profile>
+
+
 
     <profile>
       <id>product</id>
@@ -134,28 +76,7 @@
   </profiles>
 
 
-  <!--<dependencies>-->
-    <!--&lt;!&ndash;dependency>-->
-      <!--<groupId>com</groupId>-->
-      <!--<artifactId>[the artifact id of the block to be mounted]</artifactId>-->
-      <!--<version>1.0-SNAPSHOT</version>-->
-    <!--</dependency&ndash;&gt;-->
-    <!--<dependency>-->
-      <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-context</artifactId>-->
-      <!--<version>5.0.5.RELEASE</version>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>org.springframework</groupId>-->
-      <!--<artifactId>spring-web</artifactId>-->
-      <!--<version>5.0.5.RELEASE</version>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>javax.servlet</groupId>-->
-      <!--<artifactId>javax.servlet-api</artifactId>-->
-      <!--<version>3.1.0</version>-->
-    <!--</dependency>-->
-  <!--</dependencies>-->
+
   <properties>
     <!-- 设置项目编码编码 -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -277,7 +198,51 @@
 
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <testResources>
+      <testResource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </testResource>
+
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </testResource>
+    </testResources>
+
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+          </archive>
+          <webResources>
+            <resource>
+              <directory>src/main/resources/env/${package.environment}</directory>
+              <targetPath>WEB-INF/classes</targetPath>
+              <filtering>true</filtering>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
@@ -296,5 +261,19 @@
       </plugin>
     </plugins>
     <finalName>${pom.artifactId}</finalName>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <defaultGoal>compile</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 </project>
