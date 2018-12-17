@@ -294,6 +294,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <!--<finalName></finalName>-->
+    <finalName>${pom.artifactId}</finalName>
   </build>
 </project>
