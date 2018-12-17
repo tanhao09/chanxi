@@ -26,7 +26,7 @@
   <name>chanxi</name>
   <groupId>com</groupId>
   <artifactId>chanxi</artifactId>
-
+  <version>1.0</version>
 
   <profiles>
     <profile>
@@ -289,10 +289,11 @@
               <maxIdleTime>30000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppSourceDirectory>${project.build.directory}/${pom.artifactId}-${pom.version}</webAppSourceDirectory>
+          <webAppSourceDirectory>${project.build.directory}/${pom.artifactId}</webAppSourceDirectory>
           <contextPath>/</contextPath>
         </configuration>
       </plugin>
     </plugins>
+    <!--<finalName></finalName>-->
   </build>
 </project>
