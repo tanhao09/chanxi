@@ -26,7 +26,7 @@
   <name>chanxi</name>
   <groupId>com</groupId>
   <artifactId>chanxi</artifactId>
-  <version>1.0</version>
+
 
   <profiles>
     <profile>
