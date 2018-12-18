@@ -22,12 +22,67 @@
     <mvc:annotation-driven></mvc:annotation-driven>
 
     <!-- 2、视图解析器 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <!--<span style="white-space:pre"> </span>-->
-        <!-- 前缀和后缀 -->
-        <property name="prefix" value="/"/>
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >-->
+
+        <!--&lt;!&ndash; 前缀和后缀 &ndash;&gt;-->
+        <!--<property name="prefix" value="/WEB-INF/pages"/>-->
+        <!--<property name="suffix" value=".ftl"/>-->
+    <!--</bean>-->
+
+    <!-- 拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/vcode"/>
+            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+
+    <!-- ===================================================== -->
+    <!-- ViewResolver For FreeMarkerConfigurer -->
+    <!-- ===================================================== -->
+    <bean id="freemarkerResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="order" value="1"/>
+        <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="requestContextAttribute" value="request"/>
+        <property name="allowSessionOverride" value="true"/>
+        <property name="allowRequestOverride" value="true"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
     </bean>
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">5</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="locale">UTF-8</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+                <prop key="number_format">0.####</prop>
+                <prop key="boolean_format">true,false</prop>
+                <prop key="whitespace_stripping">true</prop>
+                <prop key="tag_syntax">auto_detect</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+                <prop key="auto_import">WEB-INF/pages/include/spring.ftl as spring</prop>
+                <prop key="template_exception_handler">RETHROW</prop>
+            </props>
+        </property>
+
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="debug" value="${debug}"/>
+                <entry key="domain" value="${auth.cookie.domain}"/>
+            </map>
+        </property>
+    </bean>
+
 
     <!-- 3、自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器  -->
     <context:component-scan base-package="com.chanxi.controller"/>
